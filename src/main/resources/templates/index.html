@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Gunai</title>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+</head>
+
+<body>
+
+    <style>
+        .buttonCard {
+            background-color: white;
+            border: 1px solid #7474b1;
+            border-radius: 1rem;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            width: 4rem;
+            height: 5rem;
+        }
+
+        .lista-com-cores {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .lista-com-cores li {
+            padding: 10px;
+        }
+    </style>
+
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#!">Gunai</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page header with logo and tagline-->
+    <header class="py-5 bg-light border-bottom mb-4">
+        <div class="container">
+            <div class="text-center my-5">
+                <h1 class="fw-bolder">Bem vindo ao Gunai!</h1>
+                <p class="lead mb-0">Pagina em desenvolvimento...</p>
+            </div>
+        </div>
+    </header>
+    <!-- Page content-->
+    <div class="container">
+        <div class="row">
+            <!-- Blog entries-->
+            <div class="col-lg-8">
+                <!-- Featured blog post-->
+                <div class="card mb-4">
+                    <div style="display: flex; justify-content: space-around; padding-top: 1rem;">
+                        <button class="buttonCard">0</button>
+                        <button class="buttonCard">1</button>
+                        <button class="buttonCard">2</button>
+                        <button class="buttonCard">4</button>
+                        <button class="buttonCard">8</button>
+                        <button class="buttonCard">13</button>
+                        <button class="buttonCard">21</button>
+                    </div>
+                    <div class="card-body">
+                        <div style="justify-content: space-between;display: flex;">
+                            <button id="btnCleanVotes" class="btn btn-warning">Limpar votação</button>
+                            <button id="btnShowVotes" class="btn btn-success">Mostrar votos</button>
+                        </div>
+                        <table class="table table-striped" style="padding-top: 1rem;">
+                            <thead>
+                                <th>Usuário</th>
+                                <th>Votação</th>
+                            </thead>
+                            <tbody id="votations">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Side widgets-->
+            <div class="col-lg-4">
+                <!-- Categories widget-->
+                <div class="card mb-4" style="border: 1px solid darkcyan;">
+                    <div class="card-header" style="background-color: darkcyan; color: white;">Usuários ativos</div>
+                    <div class="">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul id="users" class="list-group lista-com-cores" style="list-style: none;">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background-color: darkslategray; color: white;">Sua sessão</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label for="name">Qual é o seu nome?</label>
+                                    <input type="text" id="name" class="form-control"
+                                        placeholder="Informe seu nome aqui...">
+                                </div>
+                            </form>
+                            <br>
+                            <div class="col-sm-12">
+                                <form class="form-inline">
+                                    <div class="form-group" style="padding-top: 1rem; justify-content: space-between; display: flex;">
+                                        <button id="connect" class="btn btn-success" type="submit">Connect</button>
+                                        <button id="disconnect" class="btn btn-danger" type="submit"
+                                            disabled="disabled">Disconnect</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Gunai 2023</p>
+        </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+
+<script th:inline="javascript">
+    const stompClient = new StompJs.Client({
+        brokerURL: 'ws://localhost:8080/websocket'
+    });
+
+    const subscriptions = [];
+
+    stompClient.onConnect = (frame) => {
+        console.log('Connected: ' + frame);
+
+        setConnected(true);
+
+        subscriptions.push(
+            stompClient.subscribe('/topic/greetings', (greeting) => {
+                showGreeting(JSON.parse(greeting.body).content);
+            })
+        );
+
+        subscriptions.push(
+            stompClient.subscribe('/topic/newRegister', (message) => {
+                usersInSession(JSON.parse(message.body));
+            })
+        );
+
+        subscriptions.push(
+            stompClient.subscribe('/topic/removeUserInSession', (message) => {
+                usersInSession(JSON.parse(message.body));
+            })
+        );
+
+        subscriptions.push(
+            stompClient.subscribe('/topic/vote', (message) => {
+                votesInSession(JSON.parse(message.body));
+            })
+        );
+
+        subscriptions.push(
+            stompClient.subscribe('/topic/showVotes', (message) => {
+                votesInSession(JSON.parse(message.body));
+            })
+        );
+
+        subscriptions.push(
+            stompClient.subscribe('/topic/cleanVotes', () => {
+                cleanVotes();
+            })
+        );
+    };
+
+    stompClient.onWebSocketError = (error) => {
+        console.error('Error withid="votations" websocket', error);
+    };
+
+    stompClient.onStompError = (frame) => {
+        console.error('Broker reported error: ' + frame.headers['message']);
+        console.error('Additional details: ' + frame.body);
+    };
+
+    function setConnected(connected) {
+        $("#connect").prop("disabled", connected);
+        $("#disconnect").prop("disabled", !connected);
+        if (connected) {
+            $("#conversation").show();
+            $("#name").prop("disabled", true);
+        } else {
+            $("#conversation").hide();
+            $("#name").prop("disabled", false);
+        }
+        $("#greetings").html("");
+    }
+
+    function connect() {
+        stompClient.activate();
+        setTimeout(() => {
+            sendName();
+        }, 200);
+    }
+
+    function disconnect() {
+        stompClient.publish({
+            destination: "/app/removeUserInSession",
+            body: JSON.stringify($("#name").val())
+        });
+
+        subscriptions.forEach(subscription => subscription.unsubscribe());
+        subscriptions.length = 0;
+        stompClient.deactivate();
+        setConnected(false);
+        console.log("Disconnected");
+    }
+
+    function sendName() {
+        stompClient.publish({
+            destination: "/app/hello",
+            body: JSON.stringify({ 'name': $("#name").val() })
+        });
+
+        stompClient.publish({
+            destination: "/app/newRegister",
+            body: JSON.stringify($("#name").val())
+        });
+
+        stompClient.publish({
+            destination: "/app/vote",
+            body: JSON.stringify({})
+        });
+    }
+
+    function showGreeting(message) {
+        $("#greetings").append("<tr><td>" + message + "</td></tr>");
+    }
+
+    function usersInSession(message) {
+
+        const tbody = document.getElementById("users");
+
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        message.forEach((user) => $("#users").append("<li>" + user + "</li>"));
+    }
+
+    function votesInSession(votes) {
+
+        const tbody = document.getElementById("votations");
+
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        votes.forEach((votation) => $("#votations").append("<tr><td>" + votation.user + "</td><td>" + votation.vote + "</td></tr>"));
+    }
+
+    function sendVotation(vote) {
+        stompClient.publish({
+            destination: "/app/vote",
+            body: JSON.stringify({ 'user': $("#name").val(), 'vote': vote })
+        });
+    }
+
+    function sendShowVotes() {
+        stompClient.publish({
+            destination: "/app/showVotes",
+            body: JSON.stringify({})
+        });
+    }
+
+    function sendCleanVotes() {
+        stompClient.publish({
+            destination: "/app/cleanVotes",
+            body: JSON.stringify({})
+        });
+    }
+
+    function cleanVotes() {
+        const tbody = document.getElementById("votations");
+
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        if (beforeButton != undefined) {
+            $(beforeButton).css("background-color", "white");
+        }
+    }
+
+    var beforeButton = undefined;
+
+    $(function () {
+        $("form").on('submit', (e) => e.preventDefault());
+        $("#connect").click(() => connect());
+        $("#disconnect").click(() => disconnect());
+        $("#send").click(() => sendName());
+
+        $(".buttonCard").click(function () {
+
+            if (beforeButton != undefined) {
+                $(beforeButton).css("background-color", "white");
+            }
+
+            beforeButton = this;
+
+            $(this).css({ "background-color": "cornflowerblue" });
+
+            var buttonValue = $(this).text();
+            sendVotation(buttonValue);
+        });
+
+        $("#btnShowVotes").click(() => sendShowVotes());
+        $("#btnCleanVotes").click(() => sendCleanVotes());
+    });
+</script>
+
+</html>
